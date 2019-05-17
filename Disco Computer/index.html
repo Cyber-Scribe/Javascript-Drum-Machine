@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Disco Computer</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width", initial-scale=1.0>
+	<meta name="description" content="Online Techno Sequencer - program your own drum beats and oldskool synths.">
+	<meta name="keywords" content="Drum, Machine, Techno, 303, 808, 909, Sequencer, Online, Acid, House, Groovebox, Oldskool, Rave, Synth">
+	<meta name="author" content="Patrick Sawyer">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<!--[if IE]>
+	<link rel="stylesheet" type="text/css" href="css/explorer.css">	
+	<![endif]-->
+	<link rel="icon" type="image/png" href="images/image.png" sizes="16x16">
+	<script type="text/javascript" src="javascript/howler.core.js"></script>
+	<script type="text/javascript" src="javascript/audio.js"></script>
+	<script type="text/javascript" src="javascript/script.js"></script>
+
+</head>
+<body>
+
+<!--CONTROLS-->
+
+<div id="container">
+
+<div id="controls">
+<div id="controlsInner">
+<!--PLAY-->
+	<div class="control">
+		<div class="controlButton">
+			<button name="play" onclick="onPlay()">PLAY</button>
+		</div>
+		<div class="controlButton">
+			<button name="stop" onclick="stopFunction()">STOP</button>
+		</div>
+	</div>
+
+<div id="controlsRight">
+	<div class="labels">
+		<label>SPEED</label>
+		<label>VOLUME</label>
+		<label>KIT</label>
+		<label>SYNTH 1</label>
+		<label>SYNTH 2</label>
+	</div>
+	<div id="dropdowns">
+		<div class="dropdown">
+			<input type="range" id="bpmValue" min="80" max="180" value="130" class="slider">
+		</div>
+		<div class="dropdown">		
+			<input type="range" id="volValue" min="0" max="10" value="7" class="slider" oninput="volumeControl()">
+		</div>
+		<div class="dropdown">
+				
+				<select id="kit" onchange="kitSelect()">
+					<option value="0">KIT 1</option>
+					<option value="1">KIT 2</option>
+					<option value="2">KIT 3</option>
+					<option value="3">GRIME</option>
+					<option value="4">DNB</option>
+					<option value="5">AMEN</option>
+				</select>
+				<div class="arrow">
+					<img src="images/arrows.png">
+				</div>
+			</div>
+		<div class="dropdown">
+			
+			<select id="synth1" onchange="synth1Select()">
+					<option value="acid" selected="selected">ACID</option>
+					<option value="psy">PSY</option>
+					<option value="arp">ARP</option>
+					<option value="reese">REESE</option>
+					<option value="stab1">STAB 1</option>
+					<option value="stab2">STAB 2</option>
+					<option value="stab3">STAB 3</option>
+					<option value="stab4">STAB 4</option>
+				</select>
+				<div class="arrow">
+					<img src="images/arrows.png">
+				</div>
+			</div>
+		<div class="dropdown">
+			
+			<select id="synth2" onchange="synth2Select()">
+					<option value="acid">ACID</option>
+					<option value="psy" selected="selected">PSY</option>
+					<option value="arp">ARP</option>
+					<option value="reese">REESE</option>
+					<option value="stab1">STAB 1</option>
+					<option value="stab2">STAB 2</option>
+					<option value="stab3">STAB 3</option>
+					<option value="stab4">STAB 4</option>
+				</select>
+				<div class="arrow">
+					<img src="images/arrows.png">
+				</div>
+			</div>
+	</div>
+</div>
+</div>
+
+</div>
+
+<!--TOGGLES-->
+
+<div id="main">
+
+<div id="toggles">
+	<form>
+		<div class="toggleButton">
+			<input type="button" id="toggle0" value="KICK" onmousedown="toggleDown(0)" onmouseup="toggleUp(0)">
+		</div>
+		<div class="toggleButton">
+			<input type="button" id="toggle1" value="SNARE" onmousedown="toggleDown(1)" onmouseup="toggleUp(1)">
+		</div>
+		<div class="toggleButton">
+			<input type="button" id="toggle2" value="CLOSED" onmousedown="toggleDown(2)" onmouseup="toggleUp(2)">
+		</div>
+		<div class="toggleButton">
+			<input type="button" id="toggle3" value="OPEN" onmousedown="toggleDown(3)" onmouseup="toggleUp(3)">
+		</div>
+		<div class="toggleButton">
+			<input type="button" id="toggle4" value="PERC" onmousedown="toggleDown(4)" onmouseup="toggleUp(4)">
+		</div>
+		<div class="toggleButton">
+			<input type="button" id="toggle5" value="SYNTH 1" onmousedown="toggleDown(5)" onmouseup="toggleUp(5)">
+		</div>
+		<div class="toggleButton">
+			<input type="button" id="toggle6" value="SYNTH 2" onmousedown="toggleDown(6)" onmouseup="toggleUp(6)">
+		</div>
+	</form>
+
+</div>
+
+<!--SEQUENCER-->
+
+<div id="sequencer">
+
+	<!--KICK-->
+
+	<div class="instrument">
+		<form>
+				<div class="button">
+					<input type="button" id="kick0" onclick="sequencer('kick',0)">
+				</div>
+				<div class="button">
+					<input type="button" id="kick1" onclick="sequencer('kick',1)">
+				</div>
+				<div class="button">
+					<input type="button" id="kick2" onclick="sequencer('kick',2)">
+				</div>
+				<div class="button">
+					<input type="button" id="kick3" onclick="sequencer('kick',3)">
+				</div>
+				<div class="button">
+					<input type="button" id="kick4" onclick="sequencer('kick',4)">
+				</div>
+				<div class="button">
+					<input type="button" id="kick5" onclick="sequencer('kick',5)">
+				</div>
+				<div class="button">
+					<input type="button" id="kick6" onclick="sequencer('kick',6)">
+				</div>
+				<div class="button">
+					<input type="button" id="kick7" onclick="sequencer('kick',7)">
+				</div>
+				<div class="button">
+					<input type="button" id="kick8" onclick="sequencer('kick',8)">
+				</div>
+				<div class="button">
+					<input type="button" id="kick9" onclick="sequencer('kick',9)">
+				</div>
+				<div class="button">
+					<input type="button" id="kick10" onclick="sequencer('kick',10)">
+				</div>
+				<div class="button">
+					<input type="button" id="kick11" onclick="sequencer('kick',11)">
+				</div>
+				<div class="button">
+					<input type="button" id="kick12" onclick="sequencer('kick',12)">
+				</div>
+				<div class="button">
+					<input type="button" id="kick13" onclick="sequencer('kick',13)">
+				</div>
+				<div class="button">
+					<input type="button" id="kick14" onclick="sequencer('kick',14)">
+				</div>
+				<div class="button">
+					<input type="button" id="kick15" onclick="sequencer('kick',15)">
+				</div>
+			
+		</form>
+		
+	</div>
+
+	<!--SNAR-->
+
+	<div class="instrument">
+		<form>
+			
+				<div class="button">
+					<input type="button" id="snar0" onclick="sequencer('snar',0)">
+				</div>
+				<div class="button">
+					<input type="button" id="snar1" onclick="sequencer('snar',1)">
+				</div>
+				<div class="button">
+					<input type="button" id="snar2" onclick="sequencer('snar',2)">
+				</div>
+				<div class="button">
+					<input type="button" id="snar3" onclick="sequencer('snar',3)">
+				</div>
+				<div class="button">
+					<input type="button" id="snar4" onclick="sequencer('snar',4)">
+				</div>
+				<div class="button">
+					<input type="button" id="snar5" onclick="sequencer('snar',5)">
+				</div>
+				<div class="button">
+					<input type="button" id="snar6" onclick="sequencer('snar',6)">
+				</div>
+				<div class="button">
+					<input type="button" id="snar7" onclick="sequencer('snar',7)">
+				</div>
+				<div class="button">
+					<input type="button" id="snar8" onclick="sequencer('snar',8)">
+				</div>
+				<div class="button">
+					<input type="button" id="snar9" onclick="sequencer('snar',9)">
+				</div>
+				<div class="button">
+					<input type="button" id="snar10" onclick="sequencer('snar',10)">
+				</div>
+				<div class="button">
+					<input type="button" id="snar11" onclick="sequencer('snar',11)">
+				</div>
+				<div class="button">
+					<input type="button" id="snar12" onclick="sequencer('snar',12)">
+				</div>
+				<div class="button">
+					<input type="button" id="snar13" onclick="sequencer('snar',13)">
+				</div>
+				<div class="button">
+					<input type="button" id="snar14" onclick="sequencer('snar',14)">
+				</div>
+				<div class="button">
+					<input type="button" id="snar15" onclick="sequencer('snar',15)">
+				</div>
+		
+		</form>
+	</div>
+
+	<!--CLOS-->
+
+	<div class="instrument">
+		<form>
+		
+				<div class="button">
+					<input type="button" id="clos0" onclick="sequencer('clos',0)">
+				</div>
+				<div class="button">
+					<input type="button" id="clos1" onclick="sequencer('clos',1)">
+				</div>
+				<div class="button">
+					<input type="button" id="clos2" onclick="sequencer('clos',2)">
+				</div>
+				<div class="button">
+					<input type="button" id="clos3" onclick="sequencer('clos',3)">
+				</div>
+				<div class="button">
+					<input type="button" id="clos4" onclick="sequencer('clos',4)">
+				</div>
+				<div class="button">
+					<input type="button" id="clos5" onclick="sequencer('clos',5)">
+				</div>
+				<div class="button">
+					<input type="button" id="clos6" onclick="sequencer('clos',6)">
+				</div>
+				<div class="button">
+					<input type="button" id="clos7" onclick="sequencer('clos',7)">
+				</div>
+				<div class="button">
+					<input type="button" id="clos8" onclick="sequencer('clos',8)">
+				</div>
+				<div class="button">
+					<input type="button" id="clos9" onclick="sequencer('clos',9)">
+				</div>
+				<div class="button">
+					<input type="button" id="clos10" onclick="sequencer('clos',10)">
+				</div>
+				<div class="button">
+					<input type="button" id="clos11" onclick="sequencer('clos',11)">
+				</div>
+				<div class="button">
+					<input type="button" id="clos12" onclick="sequencer('clos',12)">
+				</div>
+				<div class="button">
+					<input type="button" id="clos13" onclick="sequencer('clos',13)">
+				</div>
+				<div class="button">
+					<input type="button" id="clos14" onclick="sequencer('clos',14)">
+				</div>
+				<div class="button">
+					<input type="button" id="clos15" onclick="sequencer('clos',15)">
+				</div>
+			
+		</form>
+	</div>
+
+	<!--OPEN-->
+
+	<div class="instrument">
+		<form>
+			
+				<div class="button">
+					<input type="button" id="open0" onclick="sequencer('open',0)">
+				</div>
+				<div class="button">
+					<input type="button" id="open1" onclick="sequencer('open',1)">
+				</div>
+				<div class="button">
+					<input type="button" id="open2" onclick="sequencer('open',2)">
+				</div>
+				<div class="button">
+					<input type="button" id="open3" onclick="sequencer('open',3)">
+				</div>
+				<div class="button">
+					<input type="button" id="open4" onclick="sequencer('open',4)">
+				</div>
+				<div class="button">
+					<input type="button" id="open5" onclick="sequencer('open',5)">
+				</div>
+				<div class="button">
+					<input type="button" id="open6" onclick="sequencer('open',6)">
+				</div>
+				<div class="button">
+					<input type="button" id="open7" onclick="sequencer('open',7)">
+				</div>
+				<div class="button">
+					<input type="button" id="open8" onclick="sequencer('open',8)">
+				</div>
+				<div class="button">
+					<input type="button" id="open9" onclick="sequencer('open',9)">
+				</div>
+				<div class="button">
+					<input type="button" id="open10" onclick="sequencer('open',10)">
+				</div>
+				<div class="button">
+					<input type="button" id="open11" onclick="sequencer('open',11)">
+				</div>
+				<div class="button">
+					<input type="button" id="open12" onclick="sequencer('open',12)">
+				</div>
+				<div class="button">
+					<input type="button" id="open13" onclick="sequencer('open',13)">
+				</div>
+				<div class="button">
+					<input type="button" id="open14" onclick="sequencer('open',14)">
+				</div>
+				<div class="button">
+					<input type="button" id="open15" onclick="sequencer('open',15)">
+				</div>
+			
+		</form>
+	</div>
+
+	<!--PERC-->
+
+	<div class="instrument">
+		<form>
+			
+				<div class="button">
+					<input type="button" id="perc0" onclick="sequencer('perc',0)">
+				</div>
+				<div class="button">
+					<input type="button" id="perc1" onclick="sequencer('perc',1)">
+				</div>
+				<div class="button">
+					<input type="button" id="perc2" onclick="sequencer('perc',2)">
+				</div>
+				<div class="button">
+					<input type="button" id="perc3" onclick="sequencer('perc',3)">
+				</div>
+				<div class="button">
+					<input type="button" id="perc4" onclick="sequencer('perc',4)">
+				</div>
+				<div class="button">
+					<input type="button" id="perc5" onclick="sequencer('perc',5)">
+				</div>
+				<div class="button">
+					<input type="button" id="perc6" onclick="sequencer('perc',6)">
+				</div>
+				<div class="button">
+					<input type="button" id="perc7" onclick="sequencer('perc',7)">
+				</div>
+				<div class="button">
+					<input type="button" id="perc8" onclick="sequencer('perc',8)">
+				</div>
+				<div class="button">
+					<input type="button" id="perc9" onclick="sequencer('perc',9)">
+				</div>
+				<div class="button">
+					<input type="button" id="perc10" onclick="sequencer('perc',10)">
+				</div>
+				<div class="button">
+					<input type="button" id="perc11" onclick="sequencer('perc',11)">
+				</div>
+				<div class="button">
+					<input type="button" id="perc12" onclick="sequencer('perc',12)">
+				</div>
+				<div class="button">
+					<input type="button" id="perc13" onclick="sequencer('perc',13)">
+				</div>
+				<div class="button">
+					<input type="button" id="perc14" onclick="sequencer('perc',14)">
+				</div>
+				<div class="button">
+					<input type="button" id="perc15" onclick="sequencer('perc',15)">
+				</div>
+			
+		</form>
+	</div>
+
+	<!--SYNT-->
+		
+	<div class="instrument">
+		<div id="synth001">
+			<form>
+			
+				<div class="button">
+					<input type="button" id="synt0" value="" onmousedown="synthDown('synt',0)" onmouseup="synthSequencer('synt',0)">
+				</div>
+				<div class="button">
+					<input type="button" id="synt1" value="" onmousedown="synthDown('synt',1)" onmouseup="synthSequencer('synt',1)">
+				</div>
+				<div class="button">
+					<input type="button" id="synt2" value="" onmousedown="synthDown('synt',2)" onmouseup="synthSequencer('synt',2)">
+				</div>
+				<div class="button">
+					<input type="button" id="synt3" value="" onmousedown="synthDown('synt',3)" onmouseup="synthSequencer('synt',3)">
+				</div>
+				<div class="button">
+					<input type="button" id="synt4" value="" onmousedown="synthDown('synt',4)" onmouseup="synthSequencer('synt',4)">
+				</div>
+				<div class="button">
+					<input type="button" id="synt5" value="" onmousedown="synthDown('synt',5)" onmouseup="synthSequencer('synt',5)">
+				</div>
+				<div class="button">
+					<input type="button" id="synt6" value="" onmousedown="synthDown('synt',6)" onmouseup="synthSequencer('synt',6)">
+				</div>
+				<div class="button">
+					<input type="button" id="synt7" value="" onmousedown="synthDown('synt',7)" onmouseup="synthSequencer('synt',7)">
+				</div>
+				<div class="button">
+					<input type="button" id="synt8" value="" onmousedown="synthDown('synt',8)" onmouseup="synthSequencer('synt',8)">
+				</div>
+				<div class="button">
+					<input type="button" id="synt9" value="" onmousedown="synthDown('synt',9)" onmouseup="synthSequencer('synt',9)">
+				</div>
+				<div class="button">
+					<input type="button" id="synt10" value="" onmousedown="synthDown('synt',10)" onmouseup="synthSequencer('synt',10)">
+				</div>
+				<div class="button">
+					<input type="button" id="synt11" value="" onmousedown="synthDown('synt',11)" onmouseup="synthSequencer('synt',11)">
+				</div>
+				<div class="button">
+					<input type="button" id="synt12" value="" onmousedown="synthDown('synt',12)" onmouseup="synthSequencer('synt',12)">
+				</div>
+				<div class="button">
+					<input type="button" id="synt13" value="" onmousedown="synthDown('synt',13)" onmouseup="synthSequencer('synt',13)">
+				</div>
+				<div class="button">
+					<input type="button" id="synt14" value="" onmousedown="synthDown('synt',14)" onmouseup="synthSequencer('synt',14)">
+				</div>
+				<div class="button">
+					<input type="button" id="synt15" value="" onmousedown="synthDown('synt',15)" onmouseup="synthSequencer('synt',15)">
+				</div>
+			</form>
+		</div>
+	</div>
+
+<!--SYNH-->
+		
+	<div class="instrument">
+		<div id="synth002">	
+			<form>
+				<div class="button">
+					<input type="button" id="synh0" value="" onmousedown="synthDown('synh',0)" onmouseup="synthSequencer('synh',0)">
+				</div>
+				<div class="button">
+					<input type="button" id="synh1" value="" onmousedown="synthDown('synh',1)" onmouseup="synthSequencer('synh',1)">
+				</div>
+				<div class="button">
+					<input type="button" id="synh2" value="" onmousedown="synthDown('synh',2)" onmouseup="synthSequencer('synh',2)">
+				</div>
+				<div class="button">
+					<input type="button" id="synh3" value="" onmousedown="synthDown('synh',3)" onmouseup="synthSequencer('synh',3)">
+				</div>
+				<div class="button">
+					<input type="button" id="synh4" value="" onmousedown="synthDown('synh',4)" onmouseup="synthSequencer('synh',4)">
+				</div>
+				<div class="button">
+					<input type="button" id="synh5" value="" onmousedown="synthDown('synh',5)" onmouseup="synthSequencer('synh',5)">
+				</div>
+				<div class="button">
+					<input type="button" id="synh6" value="" onmousedown="synthDown('synh',6)" onmouseup="synthSequencer('synh',6)">
+				</div>
+				<div class="button">
+					<input type="button" id="synh7" value="" onmousedown="synthDown('synh',7)" onmouseup="synthSequencer('synh',7)">
+				</div>
+				<div class="button">
+					<input type="button" id="synh8" value="" onmousedown="synthDown('synh',8)" onmouseup="synthSequencer('synh',8)">
+				</div>
+				<div class="button">
+					<input type="button" id="synh9" value="" onmousedown="synthDown('synh',9)" onmouseup="synthSequencer('synh',9)">
+				</div>
+				<div class="button">
+					<input type="button" id="synh10" value="" onmousedown="synthDown('synh',10)" onmouseup="synthSequencer('synh',10)">
+				</div>
+				<div class="button">
+					<input type="button" id="synh11" value="" onmousedown="synthDown('synh',11)" onmouseup="synthSequencer('synh',11)">
+				</div>
+				<div class="button">
+					<input type="button" id="synh12" value="" onmousedown="synthDown('synh',12)" onmouseup="synthSequencer('synh',12)">
+				</div>
+				<div class="button">
+					<input type="button" id="synh13" value="" onmousedown="synthDown('synh',13)" onmouseup="synthSequencer('synh',13)">
+				</div>
+				<div class="button">
+					<input type="button" id="synh14" value="" onmousedown="synthDown('synh',14)" onmouseup="synthSequencer('synh',14)">
+				</div>
+				<div class="button">
+					<input type="button" id="synh15" value="" onmousedown="synthDown('synh',15)" onmouseup="synthSequencer('synh',15)">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!--COUNTER-->
+
+<div id="counter">
+	<div class="counts">
+		<p id="counter0">1</p>
+	</div>
+	<div class="counts">
+		<p id="counter1">2</p>
+	</div>
+	<div class="counts">
+		<p id="counter2">3</p>
+	</div>
+	<div class="counts">
+		<p id="counter3">4</p>
+	</div>
+	<div class="counts">
+		<p id="counter4">5</p>
+	</div>
+	<div class="counts">
+		<p id="counter5">6</p>
+	</div>
+	<div class="counts">
+		<p id="counter6">7</p>
+	</div>
+	<div class="counts">
+		<p id="counter7">8</p>
+	</div>
+	<div class="counts">
+		<p id="counter8">9</p>
+	</div>
+	<div class="counts">
+		<p id="counter9">10</p>
+	</div>
+	<div class="counts">
+		<p id="counter10">11</p>
+	</div>
+	<div class="counts">
+		<p id="counter11">12</p>
+	</div>
+	<div class="counts">
+		<p id="counter12">13</p>
+	</div>
+	<div class="counts">
+		<p id="counter13">14</p>
+	</div>
+	<div class="counts">
+		<p id="counter14">15</p>
+	</div>
+	<div class="counts">
+		<p id="counter15">16</p>
+	</div>
+</div>
+	<div id="discoComputer">
+		<h1>DISCO COMPUTER</h1>
+		<p>Hold down toggle switches and synth notes to erase. <div id="patrick"><small>Patrick Sawyer 2018</small></div></p>
+
+	</div>
+</div>
+</div>
+<div id="ifPortrait">
+	<div id="portraitText">
+		<p>Please switch to landscape mode.</p>
+	</div>
+</div>
+	
+</body>
+
+</html>
